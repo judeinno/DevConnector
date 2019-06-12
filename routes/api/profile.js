@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+// Load validation
+const validateProfileInput = require('../../validation/profile');
+
 //Load Profile model
 const Profile =  require('./../../models/Profile');
 const User =  require('./../../models/User');
@@ -21,6 +24,7 @@ router.get('/test', (req, res) => res.json({
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     const errors = {};
     Profile.findOne({ user: req.user.id })
+        .populate('user', ['name', 'avatar'])
         .then(profile => {
             if(!profile) {
                 errors.noprofile = "There is no profile for this user"; 
@@ -36,6 +40,14 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 // @access  Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     // Get fields
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    //Check validation
+    if(!isValid) {
+        //Return error with 400 status
+        return res.status(400).json(errors)
+    }
+
     const profileFields = {};
     profileFields.user = req.user.id;
     if(req.body.handle) profileFields.handle = req.body.handle;
@@ -47,8 +59,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
     if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
 
     // Skills - Split as an array
-    if(typeof req.body.handle !== undefined) {
-        profileFields.user.skills = req.body.skills.split(',');
+    if(typeof req.body.skills !== undefined) {
+        profileFields.skills = req.body.skills.split(',');
     };
 
     // Social
@@ -63,7 +75,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
         .then(profile => {
             if(profile) {
                 //Update
-                Profile.findByIdAndUpdate(
+                Profile.findOneAndUpdate(
                     { user: req.user.id }, 
                     { $set: profileFields }, 
                     { new: true } 
