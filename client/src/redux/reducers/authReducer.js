@@ -1,12 +1,18 @@
-const initalState ={
-  isAuthenticated: false,
-  user: {}
-}
+import { TEST_DISPATCH } from '../types';
 
-export default (state = initalState, action) =>  {
-  switch (action) {
-    default:
-      return state;
-  }
-}
+const initalState = {
+	isAuthenticated: false,
+	user: {}
+};
 
+export default (state = initalState, action) => {
+	switch (action.type) {
+		case TEST_DISPATCH:
+			return {
+				...state,
+				user: action.payload
+			};
+		default:
+			return state;
+	}
+};
