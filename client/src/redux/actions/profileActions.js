@@ -27,6 +27,16 @@ import {
     }))
  }
 
+ // Create Profile
+ export const createProfile = (profileData, history) => dispatch => {
+   axios.post('/api/profile', profileData)
+    .then(res => history.push('/dashboard'))
+    .catch(error => dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    }))
+ }
+
  // Clear Profile
  export const clearCurrentProfile = () => {
   return {
