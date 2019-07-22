@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import SelectListGroup  from '../common/SelectListGroup';
+import SelectListGroup from '../common/SelectListGroup';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -24,10 +24,84 @@ class CreateProfile extends Component {
 			linkedin: '',
 			youtube: '',
 			instagram: '',
-			error: {}
+			value: '',
+			errors: {}
 		};
 	}
+
+	onSubmit = e => {
+		e.preventDefault();
+		console.log('Submit');
+	};
+
+	onChange = e => {
+		e.preventDefault();
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
 	render() {
+		const { errors, displaySocialInputs } = this.state;
+
+		// Select options for status
+		const options = [
+			{ label: '* Select Professional status', value: 0 },
+			{ label: 'Junior Developer', value: 'Junior Developer' },
+			{ label: 'Senior Developer', value: 'Senior Developer' },
+			{ label: 'Manager', value: 'Manager' },
+			{ label: 'Student and Learning', value: 'Student and Learning' },
+			{ label: 'Intern', value: 'Intern' },
+			{ label: 'Other', value: 'Other' }
+    ];
+
+    let socialInputs;
+
+    if(displaySocialInputs) {
+      socialInputs = (
+        <div>
+          <InputGroup
+            placeholder="Twitter Profile URL"
+            name="twitter"
+            icon="fab fa-twitter"
+            error={errors.twitter}
+            value={this.state.twitter}
+            onChange={this.onChange}
+          />
+          <InputGroup
+            placeholder="Facebook Profile URL"
+            name="facebook"
+            icon="fab fa-facebook"
+            error={errors.facebook}
+            value={this.state.facebook}
+            onChange={this.onChange}
+          />
+          <InputGroup
+            placeholder="Linkedin  Profile URL"
+            name="linkedin"
+            icon="fab fa-linkedin"
+            error={errors.linkedin}
+            value={this.state.linkedin}
+            onChange={this.onChange}
+          />
+          <InputGroup
+            placeholder="Youtube  Channel URL"
+            name="youtube"
+            icon="fab fa-youtube"
+            error={errors.youtube}
+            value={this.state.youtube}
+            onChange={this.onChange}
+          />
+          <InputGroup
+            placeholder="Instagram Page URL"
+            name="instagram"
+            icon="fab fa-instagram"
+            error={errors.instagram}
+            value={this.state.instagram}
+            onChange={this.onChange}
+          />
+        </div>
+      )
+    }
+
 		return (
 			<div className="create-profile">
 				<div className="container">
@@ -37,7 +111,88 @@ class CreateProfile extends Component {
 							<p className="lead text-center ">
 								Lets get some information to make your profile stand out
 							</p>
-              <small className="d-block pd-3">* = required fields</small>
+							<small className="d-block pd-3">* = required fields</small>
+							<form onSubmit={this.onSubmit}>
+								<TextFieldGroup
+									placeholder="* Profile Handle"
+									name="handle"
+									value={this.state.handle}
+									onChange={this.onChange}
+									error={errors.handle}
+									info="A unique handle for your profile. Your Full name, company name, nick name etc"
+								/>
+								<SelectListGroup
+									placeholder="* Status"
+									name="status"
+									options={options}
+									value={this.state.status}
+									onChange={this.onChange}
+									error={errors.status}
+									info="Give us an idea of where you are at in your career"
+								/>
+								<TextFieldGroup
+									placeholder="Company"
+									name="company"
+									value={this.state.company}
+									onChange={this.onChange}
+									error={errors.company}
+									info="Could be yours or one you work for."
+								/>
+								<TextFieldGroup
+									placeholder="Website"
+									name="website"
+									value={this.state.website}
+									onChange={this.onChange}
+									error={errors.website}
+									info="Could be yours or a company one."
+								/>
+								<TextFieldGroup
+									placeholder="location"
+									name="location"
+									value={this.state.location}
+									onChange={this.onChange}
+									error={errors.location}
+									info="City/State you work from or come from"
+								/>
+								<TextFieldGroup
+									placeholder="* Skills"
+									name="skills"
+									value={this.state.skills}
+									onChange={this.onChange}
+									error={errors.skills}
+									info="Please use seperated comma values e.g(HTML,CSS,Java,javascript)"
+								/>
+								<TextFieldGroup
+									placeholder="GITHUB username"
+									name="githubusername"
+									value={this.state.githubusername}
+									onChange={this.onChange}
+									error={errors.githubusername}
+									info="If you want your latest repos and a GitHub link, include your user name"
+								/>
+								<TextAreaFieldGroup
+									placeholder="Short Bio"
+									name="bio"
+									value={this.state.bio}
+									onChange={this.onChange}
+									error={errors.bio}
+									info="Tell us about your self."
+								/>
+								<div className="mb-3">
+									<button
+										onClick={() =>
+											this.setState(prevState => ({
+												displaySocialInputs: !prevState.displaySocialInputs
+											}))}
+										className="btn btn-light"
+									>
+										Add social network links
+									</button>
+									<span className="text-muted"> Optional</span>
+								</div>
+								{socialInputs}
+								<input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
+							</form>
 						</div>
 					</div>
 				</div>
