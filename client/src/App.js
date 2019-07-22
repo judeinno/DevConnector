@@ -14,7 +14,8 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
-import PrivateRoute from './components/common/PrivateRoute'
+import PrivateRoute from './components/common/PrivateRoute';
+import CreateProfile from './components/create-profile/CreateProfile'
 
 // Check for token
 if(localStorage.jwtToken) {
@@ -49,6 +50,9 @@ function App() {
             <Route exact path="/register" component={Register} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/create-profile" component={CreateProfile} />
             </Switch>
           </div>
           <Footer />
