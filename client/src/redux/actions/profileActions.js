@@ -4,7 +4,8 @@ import {
   PROFILE_LOADING,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_PROFILES
  } from '../types';
 
  // ProfileLoading
@@ -85,6 +86,20 @@ export const deleteEducation = (id) => dispatch => {
     .catch(error => dispatch({
       type: GET_ERRORS,
       payload: error.response.data
+    }))
+}
+
+// Get all profiles
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios.get('/api/profile/all')
+    .then(res => dispatch({
+      type: GET_PROFILES,
+      payload: res.data
+    }))
+    .catch(error => dispatch({
+      type: GET_PROFILES,
+      payload: null
     }))
 }
 
