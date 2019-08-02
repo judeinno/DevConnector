@@ -20,39 +20,39 @@ class AddEducation extends Component {
 			errors: {},
 			disabled: false
 		};
-  }
+	}
 
-  componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps) {
 		if (nextProps.errors) {
 			this.setState({ errors: nextProps.errors });
 		}
-  }
+	}
 
-  onChange = e => {
+	onChange = e => {
 		e.preventDefault();
 		this.setState({ [e.target.name]: e.target.value });
-  };
+	};
 
-  onSubmit = e => {
-    e.preventDefault();
-    const eduData = {
-      school: this.state.school,
+	onSubmit = e => {
+		e.preventDefault();
+		const eduData = {
+			school: this.state.school,
 			degree: this.state.degree,
 			fieldofstudy: this.state.fieldofstudy,
 			from: this.state.from,
-      to: this.state.to,
-      current: this.state.current,
-      description: this.state.description
-    }
-    this.props.addEducation(eduData, this.props.history)
+			to: this.state.to,
+			current: this.state.current,
+			description: this.state.description
+		};
+		this.props.addEducation(eduData, this.props.history);
 	};
 
-  onCheck = () => {
-    this.setState({
-      disabled: !this.state.disabled,
-      current: !this.state.current
-     })
-  }
+	onCheck = () => {
+		this.setState({
+			disabled: !this.state.disabled,
+			current: !this.state.current
+		});
+	};
 	render() {
 		const { errors } = this.state;
 		return (
@@ -95,8 +95,8 @@ class AddEducation extends Component {
 								<h6>From Data</h6>
 								<TextFieldGroup
 									placeholder="from"
-                  name="from"
-                  type="date"
+									name="from"
+									type="date"
 									value={this.state.from}
 									onChange={this.onChange}
 									error={errors.from}
@@ -105,8 +105,8 @@ class AddEducation extends Component {
 								<h6>To Data</h6>
 								<TextFieldGroup
 									placeholder="to"
-                  name="to"
-                  type="date"
+									name="to"
+									type="date"
 									value={this.state.to}
 									onChange={this.onChange}
 									error={errors.to}
@@ -147,8 +147,8 @@ class AddEducation extends Component {
 
 AddEducation.propTypes = {
 	profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  addEducation: PropTypes.func.isRequired
+	errors: PropTypes.object.isRequired,
+	addEducation: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -156,4 +156,6 @@ const mapStateToProps = state => ({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps, { addEducation })(withRouter(AddEducation));
+export default connect(mapStateToProps, { addEducation })(
+	withRouter(AddEducation)
+);
