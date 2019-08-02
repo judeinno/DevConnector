@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import PostItem from '../posts/PostItem';
 import Spinner from '../common/Spinner';
+import CommentFeed from './CommentFeed';
 import { getPost } from '../../redux/actions/postActions';
 import CommentForm from './CommentForm';
 
@@ -21,6 +22,7 @@ class PostDisplay extends Component {
 				<div>
 					<PostItem post={post} showActions={false} />
           <CommentForm postId={post._id}/>
+          <CommentFeed postId={post._id} comments={post.comments}/>
 				</div>
 			);
 		}
