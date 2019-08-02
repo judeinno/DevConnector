@@ -110,7 +110,7 @@ router.post('/unlike/:id', passport.authenticate('jwt', { session: false }), (re
                     // Get the remove index
                     const removeIndex = post.likes.map(like => like.user.toString())
                         .indexOf(req.user.id);
-                    
+
                     // Splive it out of the array
                     post.likes.splice(removeIndex, 1);
 
@@ -130,8 +130,8 @@ router.post('/comment/:id', passport.authenticate('jwt', { session: false }), (r
 
     if(!isValid) {
         //If any error send 400
-        return res.status(400).json(errors );
-    } 
+        return res.status(400).json(errors);
+    }
 
     Post.findById(req.params.id)
         .then(post => {
@@ -166,7 +166,7 @@ router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session
             // Get remove index
             const removeIndex = post.comments.map(comment => comment._id.toString())
                         .indexOf(req.params.comment_id);
-                    
+
             // Splive it out of the array
             post.comments.splice(removeIndex, 1);
 
