@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import TextFieldGroup from '../common/TextFieldGroup';
+import TextFieldGroup from '../common/TextField';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { addEducation } from '../../redux/actions/profileActions';
 
